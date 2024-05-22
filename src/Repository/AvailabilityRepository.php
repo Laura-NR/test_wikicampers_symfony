@@ -16,28 +16,15 @@ class AvailabilityRepository extends ServiceEntityRepository
         parent::__construct($registry, Availability::class);
     }
 
-    //    /**
-    //     * @return Availability[] Returns an array of Availability objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Availability
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findAvailableVehicles(\DateTime $departDate, \DateTime $returnDate)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.status = :status')
+            ->andWhere('a.depart_date <= :departDate AND a.return_date >= :returnDate')
+            ->setParameter('status', 'available')
+            ->setParameter('departDate', $departDate)
+            ->setParameter('returnDate', $returnDate)
+            ->getQuery()
+            ->getResult();
+    }
 }

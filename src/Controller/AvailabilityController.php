@@ -30,6 +30,7 @@ class AvailabilityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $availability->setStatus($form->get('status')->getData() ? 'Available' : 'Not Available');
             $entityManager->persist($availability);
             $entityManager->flush();
 

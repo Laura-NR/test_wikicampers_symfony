@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vehicle Search{% endblock %}
+
+{% block body %}
+    <h1>Search for Available Vehicles</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.depart_date) }}
+        {{ form_row(form.return_date) }}
+        <button class="btn">Search</button>
+    {{ form_end(form) }}
+
+    {% if vehicles is not empty %}
+        <h2>Available Vehicles</h2>
+        <ul>
+            {% for vehicle in vehicles %}
+                <li>
+                    {{ vehicle.make }} {{ vehicle.model }} - Total Price: ${{ totalPrices[vehicle.id] }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No vehicles available for the selected dates.</p>
+    {% endif %}
+{% endblock %}
+

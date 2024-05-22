@@ -6,6 +6,7 @@ use App\Entity\Availability;
 use App\Entity\Vehicle;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,7 +22,11 @@ class AvailabilityType extends AbstractType
                 'widget' => 'single_text',
             ])
             ->add('price_per_day')
-            ->add('status')
+            ->add('status', CheckboxType::class, [
+                'label' => 'Available',
+                'required' => false,
+                'data' => $options['data']->getStatus() === 'Available',
+            ])
             ->add('vehicle', EntityType::class, [
                 'class' => Vehicle::class,
                 'choice_label' => 'id',
