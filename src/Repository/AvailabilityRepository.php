@@ -18,10 +18,11 @@ class AvailabilityRepository extends ServiceEntityRepository
 
     public function findAvailableVehicles(\DateTime $departDate, \DateTime $returnDate)
     {
+        // Find availabilities that overlap with the requested interval
         return $this->createQueryBuilder('a')
             ->andWhere('a.status = :status')
-            ->andWhere('a.depart_date <= :departDate AND a.return_date >= :returnDate')
-            ->setParameter('status', 'available')
+            ->andWhere('a.depart_date <= :returnDate AND a.return_date >= :departDate')
+            ->setParameter('status', true) // Make sure this matches your entity values (case-sensitive)
             ->setParameter('departDate', $departDate)
             ->setParameter('returnDate', $returnDate)
             ->getQuery()

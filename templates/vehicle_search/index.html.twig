@@ -5,10 +5,10 @@
 {% block body %}
     <h1>Search for Available Vehicles</h1>
 
-    {{ form_start(form) }}
+    {{ form_start(form, {'method': 'POST'}) }}
         {{ form_row(form.depart_date) }}
         {{ form_row(form.return_date) }}
-        <button class="btn">Search</button>
+        <button type="submit" class="btn">Search</button>
     {{ form_end(form) }}
 
     {% if vehicles is not empty %}

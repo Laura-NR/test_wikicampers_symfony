@@ -30,7 +30,8 @@ class AvailabilityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $availability->setStatus($form->get('status')->getData() ? 'Available' : 'Not Available');
+            $availability->setStatus($form->get('status')->getData());
+
             $entityManager->persist($availability);
             $entityManager->flush();
 
@@ -58,6 +59,8 @@ class AvailabilityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $availability->setStatus($form->get('status')->getData());
+            
             $entityManager->flush();
 
             return $this->redirectToRoute('app_availability_index', [], Response::HTTP_SEE_OTHER);

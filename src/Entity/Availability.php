@@ -14,7 +14,7 @@ class Availability
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'availabilities')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Vehicle $vehicle = null;
 
@@ -40,7 +40,7 @@ class Availability
         return $this->vehicle;
     }
 
-    public function setVehicle(?Vehicle $vehicle): static
+    public function setVehicle(?Vehicle $vehicle): self
     {
         $this->vehicle = $vehicle;
 
@@ -83,15 +83,20 @@ class Availability
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): ?bool
     {
-        return $this->status? 'Available' : 'Not Available';
+        return $this->status;
     }
 
-    public function setStatus(string $status): static
+    public function setStatus(bool $status): static
     {
-        $this->status = ($status === 'Available');
+        $this->status = $status ;
 
         return $this;
+    }
+
+    public function getSatusLabel(): string
+    {
+        return $this->status ? 'Available' : 'Not Available';
     }
 }

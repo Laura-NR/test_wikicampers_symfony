@@ -25,7 +25,7 @@ class AvailabilityType extends AbstractType
             ->add('status', CheckboxType::class, [
                 'label' => 'Available',
                 'required' => false,
-                'data' => $options['data']->getStatus() === 'Available',
+                'data' => $options['data']->getStatus() === true,
             ])
             ->add('vehicle', EntityType::class, [
                 'class' => Vehicle::class,
