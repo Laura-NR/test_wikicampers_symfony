@@ -20,11 +20,13 @@ class VehicleSearchController extends AbstractController
 
         $vehicles = [];
         $totalPrices = [];
+        $availabilityMap = [];
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $departDate = $data['depart_date'];
             $returnDate = $data['return_date'];
+            $maxPrice = $data['max_price'];
 
             // Form data for debugging
             $logger->info('Form submitted with data: ', $data);
@@ -35,7 +37,7 @@ class VehicleSearchController extends AbstractController
 
 
             // Available vehicles for the given date range
-            $availabilities = $availabilityRepository->findAvailableVehicles($departDate, $returnDate);
+            $availabilities = $availabilityRepository->findAvailableVehicles($departDate, $returnDate, $maxPrice);
 
             if ($availabilities) {
                 $logger->info('Availabilities found: ', ['count' => count($availabilities)]);
@@ -52,6 +54,7 @@ class VehicleSearchController extends AbstractController
                     $vehicles[] = $vehicle;
                 }
                 $totalPrices[$vehicle->getId()] = $totalPrice;
+                $availabilityMap[$vehicle->getId()][] = $availability;
             }
         } else {
             // Log form errors for debugging
@@ -64,6 +67,7 @@ class VehicleSearchController extends AbstractController
             'form' => $form->createView(),
             'vehicles' => $vehicles,
             'totalPrices' => $totalPrices,
+            'availabilityMap' => $availabilityMap,
         ]);
     }
 }

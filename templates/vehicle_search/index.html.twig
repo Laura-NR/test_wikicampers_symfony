@@ -1,27 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Vehicle Search{% endblock %}
+{% block title %}Recherche des véhicules{% endblock %}
 
 {% block body %}
-    <h1>Search for Available Vehicles</h1>
+    <h1>Recherche des véhicules disponibles</h1>
 
     {{ form_start(form, {'method': 'POST'}) }}
         {{ form_row(form.depart_date) }}
         {{ form_row(form.return_date) }}
-        <button type="submit" class="btn">Search</button>
+        {{ form_row(form.max_price) }}
+        <button type="submit" class="btn">Rechercher</button>
     {{ form_end(form) }}
 
     {% if vehicles is not empty %}
-        <h2>Available Vehicles</h2>
+        <h2>Véhicules disponibles</h2>
         <ul>
             {% for vehicle in vehicles %}
                 <li>
                     {{ vehicle.make }} {{ vehicle.model }} - Total Price: ${{ totalPrices[vehicle.id] }}
+                    <br>
+                    {% for availability in availabilityMap[vehicle.id] %}
+                        Available from {{ availability.departDate|date('Y-m-d') }} to {{ availability.returnDate|date('Y-m-d') }}
+                    {% endfor %}
                 </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>No vehicles available for the selected dates.</p>
+        <p>Aucun véhicule ne correspond à vos critères de recherche</p>
     {% endif %}
+    <a href="{{ path('homepage')}}">Page d'Accueil</a>
 {% endblock %}
 

@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Repository\VehicleRepository;
 
 #[Route('/availability')]
 class AvailabilityController extends AbstractController
@@ -23,10 +24,22 @@ class AvailabilityController extends AbstractController
     }
 
     #[Route('/new', name: 'app_availability_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{vehicleId}', name: 'app_availability_new_with_vehicle', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager, VehicleRepository $vehicleRepository, $vehicleId = null): Response
     {
         $availability = new Availability();
         $form = $this->createForm(AvailabilityType::class, $availability);
+
+        if ($vehicleId) {
+            $vehicle = $vehicleRepository->find($vehicleId);
+            if ($vehicle) {
+                $availability->setVehicle($vehicle);
+                $form = $this->createForm(AvailabilityType::class, $availability, [
+                    'vehicle' => $vehicle
+                ]);
+            }
+        }
+        
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -60,7 +73,7 @@ class AvailabilityController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $availability->setStatus($form->get('status')->getData());
-            
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_availability_index', [], Response::HTTP_SEE_OTHER);

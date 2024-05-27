@@ -25,6 +25,7 @@
     <a href="{{ path('app_vehicle_index') }}">back to list</a>
 
     <a href="{{ path('app_vehicle_edit', {'id': vehicle.id}) }}">edit</a>
+    <a href="{{ path('app_availability_new_with_vehicle', {'vehicleId': vehicle.id}) }}">Add Availability for this Vehicle</a>
 
     {{ include('vehicle/_delete_form.html.twig') }}
 {% endblock %}

@@ -14,6 +14,8 @@ class AvailabilityType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $vehicle = $options['vehicle'] ?? null;
+
         $builder
             ->add('depart_date', null, [
                 'widget' => 'single_text',
@@ -30,6 +32,7 @@ class AvailabilityType extends AbstractType
             ->add('vehicle', EntityType::class, [
                 'class' => Vehicle::class,
                 'choice_label' => 'id',
+                'data' => $vehicle
             ])
         ;
     }
@@ -38,6 +41,7 @@ class AvailabilityType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Availability::class,
+            'vehicle' => null
         ]);
     }
 }

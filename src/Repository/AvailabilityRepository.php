@@ -16,16 +16,23 @@ class AvailabilityRepository extends ServiceEntityRepository
         parent::__construct($registry, Availability::class);
     }
 
-    public function findAvailableVehicles(\DateTime $departDate, \DateTime $returnDate)
+    public function findAvailableVehicles(\DateTime $departDate, \DateTime $returnDate, ?float $maxPrice = null)
     {
-        // Find availabilities that overlap with the requested interval
-        return $this->createQueryBuilder('a')
+        $days = $returnDate->diff($departDate)->days + 1;
+
+        $queryBuilder = $this->createQueryBuilder('a')
             ->andWhere('a.status = :status')
             ->andWhere('a.depart_date <= :returnDate AND a.return_date >= :departDate')
-            ->setParameter('status', true) // Make sure this matches your entity values (case-sensitive)
+            ->setParameter('status', true) // Available
             ->setParameter('departDate', $departDate)
-            ->setParameter('returnDate', $returnDate)
-            ->getQuery()
-            ->getResult();
+            ->setParameter('returnDate', $returnDate);
+
+        if ($maxPrice !== null) {
+            $queryBuilder->andWhere('a.price_per_day * :days <= :maxPrice')
+                ->setParameter('days', $days)
+                ->setParameter('maxPrice', $maxPrice);
+        }
+
+        return $queryBuilder->getQuery()->getResult();
     }
 }
