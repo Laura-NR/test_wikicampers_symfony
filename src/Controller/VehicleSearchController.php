@@ -21,12 +21,15 @@ class VehicleSearchController extends AbstractController
         $vehicles = [];
         $totalPrices = [];
         $availabilityMap = [];
+        $suggestedVehicles = [];
+        $suggestedAvailabilityMap = [];
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $departDate = $data['depart_date'];
             $returnDate = $data['return_date'];
             $maxPrice = $data['max_price'];
+            $daysFromInput = $data['days'] ?? 1; // Setting default to 1 if no value is provided
 
             // Form data for debugging
             $logger->info('Form submitted with data: ', $data);
@@ -41,20 +44,39 @@ class VehicleSearchController extends AbstractController
 
             if ($availabilities) {
                 $logger->info('Availabilities found: ', ['count' => count($availabilities)]);
+
+                foreach ($availabilities as $availability) {
+                    $vehicle = $availability->getVehicle();
+                    $days = $returnDate->diff($departDate)->days + 1;
+                    $totalPrice = $availability->getPricePerDay() * $days;
+
+                    if (!in_array($vehicle, $vehicles, true)) {
+                        $vehicles[] = $vehicle;
+                    }
+                    $totalPrices[$vehicle->getId()] = $totalPrice;
+                    $availabilityMap[$vehicle->getId()][] = $availability;
+                }
             } else {
                 $logger->info('No availabilities found for the given date range.');
-            }
 
-            foreach ($availabilities as $availability) {
-                $vehicle = $availability->getVehicle();
-                $days = $returnDate->diff($departDate)->days + 1;
-                $totalPrice = $availability->getPricePerDay() * $days;
+                // Check for suggested vehicles
+                $suggestedAvailabilities = $availabilityRepository->findSuggestedAvailableVehicles($departDate, $returnDate, $maxPrice, $daysFromInput);
 
-                if (!in_array($vehicle, $vehicles, true)) {
-                    $vehicles[] = $vehicle;
+                if ($suggestedAvailabilities) {
+                    $logger->info('Suggested availabilities found: ', ['count' => count($suggestedAvailabilities)]);
+                    foreach ($suggestedAvailabilities as $availability) {
+                        $vehicle = $availability->getVehicle();
+                        $days = $returnDate->diff($departDate)->days + 1;
+                        $totalPrice = $availability->getPricePerDay() * $days;
+
+                        if (!in_array($vehicle, $suggestedVehicles, true)) {
+                            $suggestedVehicles[] = $vehicle;
+                        }
+                        $suggestedAvailabilityMap[$vehicle->getId()][] = $availability;
+                    }
+                } else {
+                    $logger->info('No suggested availabilities found.');
                 }
-                $totalPrices[$vehicle->getId()] = $totalPrice;
-                $availabilityMap[$vehicle->getId()][] = $availability;
             }
         } else {
             // Log form errors for debugging
@@ -68,6 +90,8 @@ class VehicleSearchController extends AbstractController
             'vehicles' => $vehicles,
             'totalPrices' => $totalPrices,
             'availabilityMap' => $availabilityMap,
+            'suggestedVehicles' => $suggestedVehicles,
+            'suggestedAvailabilityMap' => $suggestedAvailabilityMap,
         ]);
     }
 }

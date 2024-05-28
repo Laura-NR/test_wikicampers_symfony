@@ -7,6 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class SearchAvailabilityType extends AbstractType
 {
@@ -24,6 +25,15 @@ class SearchAvailabilityType extends AbstractType
             ->add('max_price', NumberType::class, [
                 'required' => false,
                 'label' => 'Prix maximum de la location'
+            ])
+            ->add('days', IntegerType::class, [
+                'label' => 'Nombre de jours pour les suggestions',
+                'data' => 1, // default value
+                'required' => false,
+                'attr' => [
+                    'min' => 1,
+                    'step' => 1
+                ]
             ]);
     }
 

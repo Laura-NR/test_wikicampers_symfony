@@ -9,6 +9,7 @@
         {{ form_row(form.depart_date) }}
         {{ form_row(form.return_date) }}
         {{ form_row(form.max_price) }}
+        {{ form_row(form.days) }}
         <button type="submit" class="btn">Rechercher</button>
     {{ form_end(form) }}
 
@@ -27,6 +28,20 @@
         </ul>
     {% else %}
         <p>Aucun véhicule ne correspond à vos critères de recherche</p>
+        {% if suggestedVehicles is not empty %}
+            <h2>Suggested Vehicles</h2>
+            <ul>
+                {% for vehicle in suggestedVehicles %}
+                    <li>
+                        {{ vehicle.make }} {{ vehicle.model }}
+                        <br>
+                        {% for availability in suggestedAvailabilityMap[vehicle.id] %}
+                            Suggested Availability from {{ availability.departDate|date('Y-m-d') }} to {{ availability.returnDate|date('Y-m-d') }}
+                        {% endfor %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     {% endif %}
     <a href="{{ path('homepage')}}">Page d'Accueil</a>
 {% endblock %}

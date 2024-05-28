@@ -23,7 +23,7 @@
                 <td>{{ availability.departDate ? availability.departDate|date('Y-m-d') : '' }}</td>
                 <td>{{ availability.returnDate ? availability.returnDate|date('Y-m-d') : '' }}</td>
                 <td>{{ availability.pricePerDay }}</td>
-                <td>{{ availability.status ? 'Yes' : 'No' }}</td>
+                <td>{{ availability.status ? 'Available' : 'Not Available' }}</td>
                 <td>
                     <a href="{{ path('app_availability_show', {'id': availability.id}) }}">show</a>
                     <a href="{{ path('app_availability_edit', {'id': availability.id}) }}">edit</a>
