@@ -3,11 +3,11 @@
 {% block title %}Edit Availability{% endblock %}
 
 {% block body %}
-    <h1>Edit Availability</h1>
+    <h1>Modifier la disponibilité</h1>
 
     {{ include('availability/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_availability_index') }}">back to list</a>
+    <a href="{{ path('app_availability_index') }}">Retour à la liste</a>
 
     {{ include('availability/_delete_form.html.twig') }}
 {% endblock %}

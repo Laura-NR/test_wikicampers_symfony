@@ -12,8 +12,13 @@ class VehicleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('make')
-            ->add('model')
+            ->add('make', null, [
+                'label' => 'Marque'
+            ])
+            ->add('model', null, [
+                'label' => 'Modèle'
+            ]
+            )
         ;
     }
 

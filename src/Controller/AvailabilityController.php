@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\VehicleRepository;
+use App\Entity\Vehicle;
 
 #[Route('/availability')]
 class AvailabilityController extends AbstractController
@@ -18,6 +19,8 @@ class AvailabilityController extends AbstractController
     #[Route('/', name: 'app_availability_index', methods: ['GET'])]
     public function index(AvailabilityRepository $availabilityRepository): Response
     {
+        $availabilities = $availabilityRepository->findAll();
+
         return $this->render('availability/index.html.twig', [
             'availabilities' => $availabilityRepository->findAll(),
         ]);

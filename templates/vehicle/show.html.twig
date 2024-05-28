@@ -8,24 +8,20 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ vehicle.id }}</td>
-            </tr>
-            <tr>
-                <th>Make</th>
+                <th>Marque</th>
                 <td>{{ vehicle.make }}</td>
             </tr>
             <tr>
-                <th>Model</th>
+                <th>Modèle</th>
                 <td>{{ vehicle.model }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_vehicle_index') }}">back to list</a>
+    <a href="{{ path('app_vehicle_index') }}">Retour à la liste</a>
 
-    <a href="{{ path('app_vehicle_edit', {'id': vehicle.id}) }}">edit</a>
-    <a href="{{ path('app_availability_new_with_vehicle', {'vehicleId': vehicle.id}) }}">Add Availability for this Vehicle</a>
+    <a href="{{ path('app_vehicle_edit', {'id': vehicle.id}) }}">Modifier</a>
+    <a href="{{ path('app_availability_new_with_vehicle', {'vehicleId': vehicle.id}) }}">Ajouter une disponibilité pour ce véhicule</a>
 
     {{ include('vehicle/_delete_form.html.twig') }}
 {% endblock %}

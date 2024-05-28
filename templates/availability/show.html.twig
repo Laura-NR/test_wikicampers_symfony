@@ -3,7 +3,7 @@
 {% block title %}Availability{% endblock %}
 
 {% block body %}
-    <h1>Availability</h1>
+    <h1>Disponibilité</h1>
 
     <table class="table">
         <tbody>
@@ -12,27 +12,27 @@
                 <td>{{ availability.id }}</td>
             </tr>
             <tr>
-                <th>Depart_date</th>
+                <th>Date de départ</th>
                 <td>{{ availability.departDate ? availability.departDate|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
-                <th>Return_date</th>
+                <th>Date de retour</th>
                 <td>{{ availability.returnDate ? availability.returnDate|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
-                <th>Price_per_day</th>
+                <th>Prix par jour</th>
                 <td>{{ availability.pricePerDay }}</td>
             </tr>
             <tr>
-                <th>Status</th>
+                <th>Statut</th>
                 <td>{{ availability.status ? 'Available' : 'Not Available' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_availability_index') }}">back to list</a>
+    <a href="{{ path('app_availability_index') }}">Retour à la liste</a>
 
-    <a href="{{ path('app_availability_edit', {'id': availability.id}) }}">edit</a>
+    <a href="{{ path('app_availability_edit', {'id': availability.id}) }}">Modifier</a>
 
     {{ include('availability/_delete_form.html.twig') }}
 {% endblock %}

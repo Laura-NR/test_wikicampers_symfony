@@ -8,35 +8,35 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Depart_date</th>
-                <th>Return_date</th>
-                <th>Price_per_day</th>
-                <th>Status</th>
-                <th>actions</th>
+                <th>Véhicule</th>
+                <th>Date de départ</th>
+                <th>Date de retour</th>
+                <th>Prix par jour</th>
+                <th>Statut</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
         {% for availability in availabilities %}
             <tr>
-                <td>{{ availability.id }}</td>
+                <td>{{ availability.vehicle.make }} {{ availability.vehicle.model }}</td>
                 <td>{{ availability.departDate ? availability.departDate|date('Y-m-d') : '' }}</td>
                 <td>{{ availability.returnDate ? availability.returnDate|date('Y-m-d') : '' }}</td>
                 <td>{{ availability.pricePerDay }}</td>
                 <td>{{ availability.status ? 'Available' : 'Not Available' }}</td>
                 <td>
-                    <a href="{{ path('app_availability_show', {'id': availability.id}) }}">show</a>
-                    <a href="{{ path('app_availability_edit', {'id': availability.id}) }}">edit</a>
+                    <a href="{{ path('app_availability_show', {'id': availability.id}) }}">Afficher</a>
+                    <a href="{{ path('app_availability_edit', {'id': availability.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">No records found</td>
+                <td colspan="6">Aucun enregistrement n'a été trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_availability_new') }}">Create new</a>
+    <a href="{{ path('app_availability_new') }}">Nouveau</a>
     <a href="{{ path('homepage')}}">Page d'Accueil</a>
 {% endblock %}

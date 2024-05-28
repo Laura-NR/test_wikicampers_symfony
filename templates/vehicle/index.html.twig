@@ -8,31 +8,29 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Make</th>
-                <th>Model</th>
-                <th>actions</th>
+                <th>Marque</th>
+                <th>Modèle</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
         {% for vehicle in vehicles %}
             <tr>
-                <td>{{ vehicle.id }}</td>
                 <td>{{ vehicle.make }}</td>
                 <td>{{ vehicle.model }}</td>
                 <td>
-                    <a href="{{ path('app_vehicle_show', {'id': vehicle.id}) }}">show</a>
-                    <a href="{{ path('app_vehicle_edit', {'id': vehicle.id}) }}">edit</a>
+                    <a href="{{ path('app_vehicle_show', {'id': vehicle.id}) }}">Afficher</a>
+                    <a href="{{ path('app_vehicle_edit', {'id': vehicle.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">Aucun enregistrement n'a été trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_vehicle_new') }}">Create new</a>
+    <a href="{{ path('app_vehicle_new') }}">Nouveau</a>
     <a href="{{ path('homepage')}}">Page d'Accueil</a>
 {% endblock %}
