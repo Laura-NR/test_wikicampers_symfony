@@ -76,10 +76,12 @@
         }
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.6",
         "phpunit/phpunit": "^11.1",
         "symfony/css-selector": "7.0.*",
         "symfony/debug-bundle": "7.0.*",
         "symfony/maker-bundle": "^1.59",
-        "symfony/web-profiler-bundle": "7.0.*"
+        "symfony/web-profiler-bundle": "7.0.*",
+        "zenstruck/foundry": "^1.37"
     }
 }
