@@ -24,6 +24,8 @@ class SearchAvailabilityTypeTest extends TypeTestCase
         $formData = [
             'depart_date' => '2024-05-01',
             'return_date' => '2024-05-10',
+            'max_price' => 100.0,
+            'days' => 2
         ];
 
         $model = [];
@@ -32,18 +34,20 @@ class SearchAvailabilityTypeTest extends TypeTestCase
         $expected = [
             'depart_date' => new \DateTime('2024-05-01'),
             'return_date' => new \DateTime('2024-05-10'),
+            'max_price' => 100.0,
+            'days' => 2
         ];
 
-        // submiting data to the form directly
+        // Submitting data to the form directly
         $form->submit($formData);
 
-        // ensuring form is successfully submitted
+        // Ensuring form is successfully submitted
         $this->assertTrue($form->isSynchronized());
 
-        // checking that the $model has been correctly populated
+        // Checking that the $model has been correctly populated
         $this->assertEquals($expected, $form->getData());
 
-        // checking that the form fields contain the correct data
+        // Checking that the form fields contain the correct data
         $view = $form->createView();
         $children = $view->children;
 
